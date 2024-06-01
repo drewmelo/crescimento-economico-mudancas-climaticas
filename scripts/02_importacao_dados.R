@@ -52,11 +52,10 @@ dados <- scopus_wos |>
 resultados <- bibliometrix::biblioAnalysis(dados)
 
 # Sumarizando os resultados
-dados_ds <- bibliometrix::summary(object = resultados, k = 20)
+dados_ds <- summary(object = resultados, k = 20)
 
 # Plotando o gráfico
-plots <- bibliometrix::plot(resultados, k = 10)
-
+plots <- plot(resultados, k = 10)
 
 ## LIMPEZA DO GLOBAL ENVIRONMENT ----------------------------------------------
 

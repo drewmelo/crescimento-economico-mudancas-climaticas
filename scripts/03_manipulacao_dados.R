@@ -103,6 +103,35 @@ dados_figura6 <- contagem_figura6 |>
                   dplyr::group_by(areas) |>
                   dplyr::mutate(cum_n = cumsum(n))
 
+# Figura 07 ------------------------------------------------------------------
+
+dados_figura7 <- dados_figura7 |>
+  head(15) |>
+  dplyr::rename(total_citacoes = TC,
+                media_tc = `Average Article Citations`,
+                pais = Country) |>
+  dplyr::mutate(pais = dplyr::case_match(
+    pais,
+    "CHINA" ~ "China",
+    "USA" ~ "Estados Unidos",
+    "UNITED KINGDOM" ~ "Reino Unido",
+    "AUSTRALIA" ~ "Austrália",
+    "TURKEY" ~ "Turquia",
+    "GERMANY" ~ "Alemanha",
+    "SPAIN" ~ "Espanha",
+    "NETHERLANDS" ~ "Países Baixos",
+    "INDIA" ~ "Índia",
+    "PAKISTAN" ~ "Paquistão",
+    "FRANCE" ~ "França",
+    "MALAYSIA" ~ "Malásia",
+    "AUSTRIA" ~ "Áustria",
+    "NORWAY" ~ "Noruega",
+    "ITALY" ~ "Itália",
+    # Para manter qualquer valor que não corresponda a nenhuma das condições
+    .default = pais
+  )) |>
+  dplyr::mutate(pais_fator = forcats::fct_reorder(pais, total_citacoes))
+
 ## Auxílio para análise das figuras ------------------------------------------
 
 # Calculando a variação anual e média dos artigos
