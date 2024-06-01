@@ -26,7 +26,9 @@ pacotes <- c(
   "janitor",
   # Importação de dados
   "readxl",
-  "extrafont"
+  # Fontes e tabelas
+  "extrafont",
+  "gridExtra"
 )
 
 # Verificar quais pacotes já estão instalados

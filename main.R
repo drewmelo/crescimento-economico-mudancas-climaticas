@@ -12,6 +12,9 @@ source("scripts/02_importacao_dados.R")
 
 ## SCRIPT 03 - MANIPULAÇÃO DOS DADOS ----------------------------------------
 
+# Exportando os dados para xlsx para análise do biblioshiny
+openxlsx::write.xlsx(dados, "dados/dados.xlsx", rowNames = F)
+
 # Carregando o script 03_manipulacao_dados.R
 source("scripts/03_manipulacao_dados.R")
 
@@ -395,4 +398,40 @@ print(figura_8) |>
     dpi = 300      # Resolução do gráfico em DPI (dots per inch)
   )
 
-### RESULTADOS DAS TABELAS --------------------------------------------------
+### TABELAS ---------------------------------------------------------------
+
+## Tabela 1 ----------------------------------------------------------------
+
+# Preparando os dados da tabela 1
+tabela_1 <- dados_tabela1 |>
+            head(10) |>
+            dplyr::rename(
+              `Periódico` = element,
+              `H Index` = h_index_x,
+              `Total de Citações` = tc_x,
+              `Total de Artigos` = np,
+              `Ano Inicial de Publicação` = py_start
+            )
+
+# Criar o gráfico da tabela usando ggplot2
+background_tabela1 <- ggplot2::ggplot(tabela_1,
+                                      ggplot2::aes(x = "", y = Periódico)) +
+                      ggplot2::geom_blank() +
+                      ggplot2::theme_void() +
+                      ggplot2::annotation_custom(
+                        gridExtra::tableGrob(tabela_1)
+                      ) +
+                      ggplot2::ggtitle(
+                        "Tabela 1 - Desempenho dos principais periódicos científicos em termos de índice de produtividade acadêmica"
+                      ) +
+                      ggplot2::theme(
+                        plot.title = ggplot2::element_text(
+                          size = 14, face = "bold", hjust = 0.5, vjust = -.5
+                        )
+                      )
+
+# Gerar o PDF com a fonte especificada
+pdf("tabelas/tabela_1.pdf", height = 3.5, width = 14, family = "Times")
+print(background_tabela1)
+dev.off()
+

@@ -1,4 +1,4 @@
-### ================= SCRIPT 02 - IMPORTAÇÃO DOS DADOS =======================
+### ================ SCRIPT 02 - IMPORTAÇÃO DOS DADOS ===================== ###
 
 ## Convertendo os dados para data frame
 
@@ -29,7 +29,7 @@ for(i in seq_along(files)) {
                                            format = "plaintext")
 }
 
-# Adicionando o dataframe 'a' na lista
+# Adicionando o dataframe 'scopus' na lista
 df_list <- c(list(scopus), df_list)
 
 # REMOÇÃO DOS ARTIGOS DUPLICADOS  ---------------------------------------------
@@ -98,12 +98,17 @@ dados_figura7 <- readxl::read_excel("dados/dados_biblioshiny/most_cited_countrie
 dados_figura8 <- readxl::read_excel("dados/dados_biblioshiny/trend_topics.xlsx",
                                     skip = 1)
 
-## IMPORTAÇÃO DE OUTROS DATASETS PARA PLOTAGEM  ----------------------------
+## IMPORTAÇÃO DOS DADOS GERADOS PELO BIBLIOMETRIX (FIGURAS) -------------------
+
+# Tabela 2
+dados_tabela2 <- readxl::read_excel("dados/dados_biblioshiny/most_global_cited_documents.xlsx", skip = 1)
+
+## IMPORTAÇÃO DE OUTROS DATASETS PARA PLOTAGEM  -------------------------------
 
 # Download dos dados com latitude e longitude dos países
 rawnodes <- read.csv('http://www.kateto.net/wordpress/wp-content/uploads/2015/06/Country_terms_FREQ.csv')
 
-## IMPORTAÇÃO DOS DADOS DO SCIMAGOJR ---------------------------------------
+## IMPORTAÇÃO DOS DADOS DO SCIMAGOJR ------------------------------------------
 
 # Importação dos dados referente as áreas dos periódicos
 dados_area <- read_csv2("dados/dados_scimagojr/area_pesquisa.csv")

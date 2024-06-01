@@ -171,3 +171,21 @@ dplyr::filter(areas %in% c("Ciência Ambiental", "Ciências Sociais", "Economia,
                            "Energia", "Medicina")) |>
   dplyr::group_by(areas) |>
   dplyr::mutate(cum_n = cumsum(n))
+
+## Resultados das tabelas ------------------------------------------
+
+# Gerando a análise dos periódicos
+dados_tabela1 <- Hindex(dados, field = "source", sep = ";") |>
+  pluck("H") |>
+  clean_names() |>
+  arrange(desc(h_index)) |>
+  inner_join(dados_area, by = c("element" = "title")) |>
+  distinct(element, .keep_all = T) |>
+  select(1:15) |>
+  inner_join(read_excel("dados/dados_biblioshiny/most_relevant_sources.xlsx",
+                        skip = 1),
+             by = c("element" = "Sources")) |>
+  clean_names() |>
+  select(element, h_index_x, tc_x,
+         np, py_start)
+
