@@ -1,0 +1,118 @@
+### ================= SCRIPT 03 - MANIPULAÇÃO DOS DADOS =======================
+
+## Manipulação dos dados (SCIMAGOJR) ------------------------------------------
+
+# Junção da base de áreas de periódicos com a base principal
+dados_area <- dados_area |>
+                janitor::clean_names() |>
+                dplyr::mutate(title = toupper(title)) |>
+                dplyr::select(-1, -5, -7, -c(9:18), -c(21:22)) |>
+                dplyr::right_join(dados, by = c("title" = "SO")) |>
+                janitor::clean_names() |>
+                # Atribuindo manualmente áreas para periódicos mais relevantes
+                dplyr::mutate(areas = dplyr::case_when(
+                  title == "SUSTAINABILITY (SWITZERLAND)" | title == "SUSTAINABILITY (SWITZERLAND) " ~ "Computer Science; Energy; Environmental Science; Social Sciences",
+                  title == "ENVIRONMENT DEVELOPMENT AND SUSTAINABILITY"  ~ "Economics, Econometrics and Finance; Environmental Science; Social Sciences",
+                  title == "RENEWABLE & SUSTAINABLE ENERGY REVIEWS" ~ "Energy",
+                  title == "ENVIRONMENTAL & RESOURCE ECONOMICS" ~ "Economics, Econometrics and Finance; Environmental Science",
+                  title == "ENVIRONMENTAL SCIENCE & POLICY" ~ "Environmental Science; Social Sciences",
+                  title == "ECONOMIC RESEARCH-EKONOMSKA ISTRAZIVANJA " ~ "Economics, Econometrics and Finance",
+                  title == "ENVIRONMENTAL SCIENCE AND POLLUTION RESEARCH INTERNATIONAL" ~ "Environmental Science; Medicine",
+                  title == "ENERGY & ENVIRONMENT" ~ "Energy; Environmental Science",
+                  title == "ENVIRONMENTAL SCIENCE AND TECHNOLOGY" ~ "Energy; Environmental Science",
+                  title == "RESOURCES CONSERVATION AND RECYCLING" ~ "Economics, Econometrics and Finance; Environmental Science",
+                  title == "ENERGY RESEARCH & SOCIAL SCIENCE" ~ "Energy; Social Sciences",
+                  title == "OIL AND GAS JOURNAL" ~ "Energy",
+                  title == "RESOURCE AND ENERGY ECONOMICS" ~ "Economics, Econometrics and Finance",
+                  title == "ENERGY SOURCES PART B-ECONOMICS PLANNING AND POLICY" ~ "Chemical Engineering; Energy; Environmental Science",
+                  TRUE ~ areas
+                ))
+
+## Manipulação dos dados das figuras ------------------------------------------
+
+# Figura 02 ------------------------------------------------------------------
+dados_figura2 <- dados_figura2 |>
+                  janitor::clean_names()
+
+# Figura 03 ------------------------------------------------------------------
+dados_figura3 <- dados_figura3 |>
+                  dplyr::rename(freq = Freq) |>
+                  dplyr::mutate(region = tolower(region))
+
+# Figura 04 ------------------------------------------------------------------
+dados_figura4 <- dados_figura4 |>
+                  janitor::clean_names() |>
+                  # Identificando os maiores países em produções científicas
+                  dplyr::group_by(country) |>
+                  dplyr::summarize(total_article = sum(articles)) |>
+                  dplyr::ungroup() |>
+                  dplyr::arrange(dplyr::desc(total_article)) |>
+                  dplyr::inner_join(readxl::read_excel("dados/dados_biblioshiny/countries_production.xlsx",
+                                                       skip = 1) |>
+                                      janitor::clean_names(), by = "country") |>
+                  dplyr::mutate(
+                    country = dplyr::case_match(country,
+                                                "CHINA" ~ "China",
+                                                "USA" ~ "Estados Unidos",
+                                                "PAKISTAN" ~ "Paquistão",
+                                                "TURKEY" ~ "Turquia",
+                                                "AUSTRALIA" ~ "Austrália",
+                                                "INDIA" ~ "Índia",
+                                                "GERMANY" ~ "Alemanha",
+                                                "UNITED KINGDOM" ~ "Reino Unido",
+                                                .default = country),
+                    ano_ref = 2018.3
+                  )
+
+# Figura 05 ------------------------------------------------------------------
+dados_figura5 <- dados_figura5 |>
+                  janitor::clean_names() |>
+                  dplyr::mutate(from = tolower(from), to = tolower(to))
+
+# Figura 06 ------------------------------------------------------------------
+
+# Realizando contagem de artigos por área
+contagem_figura6 <- dados_area |>
+                     tidyr::separate_rows(areas, sep = "; ") |>
+                     dplyr::count(areas, py)
+
+# Preparando plotagem da figura 6
+dados_figura6 <- contagem_figura6 |>
+                  dplyr::group_by(areas) |>
+                  # Contagem dos artigos por ano - por área
+                  dplyr::reframe(total_n = sum(n)) |>
+                  dplyr::inner_join(contagem_figura6, by = "areas") |>
+                  dplyr::relocate(total_n, .after = n) |>
+                  tidyr::drop_na() |>
+                  # Tradução do nome das principais áreas em destaque
+                  dplyr::mutate(areas = dplyr::case_match(areas,
+                                                          "Environmental Science" ~ "Ciência Ambiental",
+                                                          "Social Sciences" ~ "Ciências Sociais",
+                                                          "Economics, Econometrics and Finance" ~ "Economia, Econometria e Finanças",
+                                                          "Energy" ~ "Energia",
+                                                          "Business, Management and Accounting" ~ "Negócios, Gestão e Contabilidade",
+                                                          "Engineering" ~ "Engenharia",
+                                                          "Medicine" ~ "Medicina",
+                                                          "Earth and Planetary Sciences" ~ "Ciências da Terra e Planetárias",
+                                                          "Agricultural and Biological Sciences" ~ "Ciências Agrícolas e Biológicas",
+                                                          .default = areas
+                  )) |>
+                  # Realizando contagem acumulada dos artigos
+                  dplyr::filter(areas %in% c("Ciência Ambiental", "Ciências Sociais", "Economia, Econometria e Finanças",
+                                             "Energia", "Medicina")) |>
+                  dplyr::group_by(areas) |>
+                  dplyr::mutate(cum_n = cumsum(n))
+
+## Auxílio para análise das figuras ------------------------------------------
+
+# Calculando a variação anual e média dos artigos
+var_figura4 <- dados_figura4 |>
+                dplyr::group_by(country) |>
+                dplyr::mutate(variacao_artigo = articles - dplyr::lag(articles),
+                              variacao_artigo_percentual = round(100 * (articles - dplyr::lag(articles)) / dplyr::lag(articles), 2)
+                ) |>
+                dplyr::filter(country %in% c("China", "Estados Unidos", "Paquistão", "Turquia",
+                                             "Austrália", "Índia", "Alemanha", "Reino Unido")) |>
+                dplyr::arrange(year, country) |>
+                tidyr::drop_na() |>
+                dplyr::ungroup()
