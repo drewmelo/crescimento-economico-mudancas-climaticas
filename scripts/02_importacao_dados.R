@@ -73,30 +73,34 @@ rm(all_obj, keep_obj, remov_obj)
 
 ## IMPORTAÇÃO DOS DADOS GERADOS PELO BIBLIOMETRIX (FIGURAS) -------------------
 
-# Figura 02
+# Figura 2
 dados_figura2 <- plots$AnnualScientProd$data
 
-# Figura 03
+# Figura 3
 dados_figura3 <- readxl::read_excel("dados/dados_biblioshiny/countries_production_map.xlsx",
                                     skip = 1)
-# Figura 04
+# Figura 4
 dados_figura4 <- readxl::read_excel("dados/dados_biblioshiny/countries_production.xlsx",
                                     skip = 1)
 
-# Figura 05
+# Figura 5
 dados_figura5 <- readxl::read_excel("dados/dados_biblioshiny/collaboration_worldmap.xlsx",
                                     skip = 1)
 
-# Figura 07
+# Figura 7
 dados_figura7 <- readxl::read_excel("dados/dados_biblioshiny/most_cited_countries.xlsx",
                                     skip = 1)
 
-# Figura 08
+# Figura 8
 dados_figura8 <- readxl::read_excel("dados/dados_biblioshiny/trend_topics.xlsx",
                                     skip = 1)
+
+## IMPORTAÇÃO DE OUTROS DATASETS PARA PLOTAGEM  ----------------------------
+
+# Download dos dados com latitude e longitude dos países
+rawnodes <- read.csv('http://www.kateto.net/wordpress/wp-content/uploads/2015/06/Country_terms_FREQ.csv')
 
 ## IMPORTAÇÃO DOS DADOS DO SCIMAGOJR ---------------------------------------
 
 # Importação dos dados referente as áreas dos periódicos
 dados_area <- read_csv2("dados/dados_scimagojr/area_pesquisa.csv")
-

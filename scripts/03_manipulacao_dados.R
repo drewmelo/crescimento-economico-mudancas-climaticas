@@ -69,6 +69,30 @@ dados_figura5 <- dados_figura5 |>
                   janitor::clean_names() |>
                   dplyr::mutate(from = tolower(from), to = tolower(to))
 
+# Filtrando a frequência de conexões
+dados_figura5 <- dados_figura5[dados_figura5$frequency > 2,
+                               c('from','to',"frequency")]
+
+# Gerando análises das conexões entre os países
+collab_net <- network::network(dados_figura5,
+                               matrix.type = 'edgelist',
+                               directed = FALSE,  # esta será uma rede não direcionada
+                               ignore.eval = FALSE  # confusamente, isso diz para incluir os pesos das arestas
+)
+
+# Juntando os dados latitudinais e longitudinais aos dados
+collab_net %v% 'lon' <- sapply(network::network.vertex.names(collab_net),
+                               function(name) {
+                                 rawnodes[rawnodes$ID == name, ]$lon
+                               }
+                        )
+
+collab_net %v% 'lat' <- sapply(network::network.vertex.names(collab_net),
+                               function(name) {
+                                 rawnodes[rawnodes$ID == name, ]$lat
+                               }
+                        )
+
 # Figura 06 ------------------------------------------------------------------
 
 # Realizando contagem de artigos por área
