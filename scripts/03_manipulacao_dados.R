@@ -120,12 +120,7 @@ dados_figura6 <- contagem_figura6 |>
                                                           "Earth and Planetary Sciences" ~ "Ciências da Terra e Planetárias",
                                                           "Agricultural and Biological Sciences" ~ "Ciências Agrícolas e Biológicas",
                                                           .default = areas
-                  )) |>
-                  # Realizando contagem acumulada dos artigos
-                  dplyr::filter(areas %in% c("Ciência Ambiental", "Ciências Sociais", "Economia, Econometria e Finanças",
-                                             "Energia", "Medicina")) |>
-                  dplyr::group_by(areas) |>
-                  dplyr::mutate(cum_n = cumsum(n))
+                  ))
 
 # Figura 07 ------------------------------------------------------------------
 
@@ -158,7 +153,7 @@ dados_figura7 <- dados_figura7 |>
 
 ## Auxílio para análise das figuras ------------------------------------------
 
-# Calculando a variação anual e média dos artigos
+# Calculando a variação anual e média dos artigos (figura 4)
 var_figura4 <- dados_figura4 |>
                 dplyr::group_by(country) |>
                 dplyr::mutate(variacao_artigo = articles - dplyr::lag(articles),
@@ -169,3 +164,10 @@ var_figura4 <- dados_figura4 |>
                 dplyr::arrange(year, country) |>
                 tidyr::drop_na() |>
                 dplyr::ungroup()
+
+# Realizando contagem acumulada dos artigos (figura 6)
+acum_figura6 <- dados_figura6 |>
+dplyr::filter(areas %in% c("Ciência Ambiental", "Ciências Sociais", "Economia, Econometria e Finanças",
+                           "Energia", "Medicina")) |>
+  dplyr::group_by(areas) |>
+  dplyr::mutate(cum_n = cumsum(n))

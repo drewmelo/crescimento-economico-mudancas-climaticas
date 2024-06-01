@@ -1,11 +1,11 @@
-### ======================= SCRIPT PRINCIPAL ==============================
+### ======================= SCRIPT PRINCIPAL ================================
 
-## SCRIPT 01 - PACOTES -----------------------------------------------------
+## SCRIPT 01 - PACOTES ------------------------------------------------------
 
 # Carregando o script 01_pacotes.R
 source("scripts/01_pacotes.R")
 
-## SCRIPT 02 - IMPORTAÇÃO DOS DADOS ----------------------------------------
+## SCRIPT 02 - IMPORTAÇÃO DOS DADOS -----------------------------------------
 
 # Carregando o script 02_importacao_dados.R
 source("scripts/02_importacao_dados.R")
@@ -17,7 +17,7 @@ source("scripts/03_manipulacao_dados.R")
 
 ### FIGURAS -----------------------------------------------------------------
 
-## FIGURA 2 ----------------------------------------------------------------
+## FIGURA 2 -----------------------------------------------------------------
 
 # Plotagem do gráfico de linhas
 figura_2 <- dados_figura2 |>
@@ -34,17 +34,14 @@ figura_2 <- dados_figura2 |>
                 axis.title = ggplot2::element_text(size = 18)
               )
 
-# Visualização da figura
-figura_2
-
-# Salvando a figura 2 na pasta figuras
-ggplot2::ggsave(
-  filename = "figuras/figura_2.png",
-  plot = figura_2,
-  width = 16,    # Largura do gráfico em polegadas
-  height = 9,    # Altura do gráfico em polegadas
-  dpi = 300      # Resolução do gráfico em DPI (dots per inch)
-)
+# Salvando a figura 2 em /figuras
+print(figura_2) |>
+  ggplot2::ggsave(
+    filename = "figuras/figura_2.png",
+    width = 16,    # Largura do gráfico em polegadas
+    height = 9,    # Altura do gráfico em polegadas
+    dpi = 300      # Resolução do gráfico em DPI (dots per inch)
+  )
 
 ## FIGURA 3 ---------------------------------------------------------------
 
@@ -77,23 +74,19 @@ figura_3 <- ggplot2::ggplot() +
                 legend.position = c(.05, .25)
               )
 
-# Visualização da figura
-figura_3
-
-# Salvando a figura 3 na pasta figuras
-ggplot2::ggsave(
-  filename = "figuras/figura_3.png",
-  plot = figura_3,
-  width = 16,    # Largura do gráfico em polegadas
-  height = 9,    # Altura do gráfico em polegadas
-  dpi = 300      # Resolução do gráfico em DPI (dots per inch)
-)
-
+# Salvando a figura 3 em /figuras
+print(figura_3) |>
+  ggplot2::ggsave(
+    filename = "figuras/figura_3.png",
+    width = 16,    # Largura do gráfico em polegadas
+    height = 9,    # Altura do gráfico em polegadas
+    dpi = 300      # Resolução do gráfico em DPI (dots per inch)
+  )
 
 ## FIGURA 4 ---------------------------------------------------------------
 
 # Rótulos para os países destacados
-n <- length(c("China", "Estados Unidos", "Reino Unido", "Paquistão", "Turquia",
+n_paises <- length(c("China", "Estados Unidos", "Reino Unido", "Paquistão", "Turquia",
               "Austrália", "Índia", "Alemanha"))
 
 # Plotando a figura 4
@@ -176,7 +169,8 @@ figura_4 <- figura_4 +
                                           breaks = scales::breaks_pretty()) +
               ggplot2::scale_color_manual(
                 values = c(
-                  rcartocolor::carto_pal(n = n, name = "Bold")[1:n-1], "grey50"
+                  rcartocolor::carto_pal(
+                    n = n_paises, name = "Bold")[1:n_paises-1], "grey50"
                 )
               ) +
               ggplot2::labs(y = "Artigos publicados", x = "Ano") +
@@ -186,28 +180,25 @@ figura_4 <- figura_4 +
                 axis.title = ggplot2::element_text(size = 18)
               )
 
-# Visualização da figura
-figura_4
-
-# Salvando a figura 3 na pasta figuras
-ggplot2::ggsave(
-  filename = "figuras/figura_4.png",
-  plot = figura_4,
-  width = 16,    # Largura do gráfico em polegadas
-  height = 9,    # Altura do gráfico em polegadas
-  dpi = 300      # Resolução do gráfico em DPI (dots per inch)
-)
+# Salvando a figura 6 em /figuras
+print(figura_4) |>
+  ggplot2::ggsave(
+    filename = "figuras/figura_4.png",
+    width = 16,    # Largura do gráfico em polegadas
+    height = 9,    # Altura do gráfico em polegadas
+    dpi = 300      # Resolução do gráfico em DPI (dots per inch)
+  )
 
 ## FIGURA 5 ---------------------------------------------------------------
 
-# Abrir o dispositivo gráfico para salvar a figura
+# Abrir o dispositivo gráfico para salvar a figura 5
 png(filename = "figuras/figura_5.png",
     width = 16,    # Largura do gráfico em polegadas
     height = 9,    # Altura do gráfico em polegadas
     units = "in",  # Unidades em polegadas
     res = 300)     # Resolução do gráfico em DPI (dots per inch)
 
-# Plot do mapa como background (compilar esta linha primeiro nesta seção)
+# Plot do mapa como background
 maps::map('world', fill = TRUE, col = '#E4E9EA', border = '#A8ACAD', lwd = .8)
 
 # Definindo os limites do eixo x e y
@@ -235,3 +226,173 @@ figura_5 <- network::plot.network(collab_net,
 # Fechar o dispositivo gráfico
 dev.off()
 
+## FIGURA 6 ---------------------------------------------------------------
+
+figura_6 <- ggplot2::ggplot(data = dados_figura6 |>
+                              dplyr::filter(total_n < 700),
+                            ggplot2::aes(py, n, group = areas)) +
+            ggplot2::geom_line(color = "grey75",
+                               linewidth = .6,
+                               alpha = .5, show.legend = FALSE) +
+            ggplot2::geom_line(
+              data = dados_figura6 |>
+                dplyr::filter(total_n > 700),
+              ggplot2::aes(col = areas),
+              linewidth = .9
+            )
+
+n_areas <- length(areas <- c("Ciência Ambiental",
+                             "Ciências Sociais",
+                             "Economia, Econometria e Finanças",
+                             "Energia",
+                             "Medicina"))
+
+figura_6 <- figura_6 +
+            # Sistema de coordenadas
+            ggplot2::coord_cartesian(
+              clip = "off",
+              ylim = c(0, 610)
+            ) +
+            # Correção de escala do eixo x e y e cores
+            ggplot2::scale_x_continuous(limits = c(1978, 2024),
+                                        breaks = seq(1978, 2024, 3)) +
+            ggplot2::scale_y_continuous(limits = c(0, 610),
+                                        breaks = scales::breaks_pretty()) +
+            ggplot2::scale_color_manual(
+              values = c(
+                rcartocolor::carto_pal(
+                  n = n_areas, name = "Bold")[1:n_areas-1], "grey50"
+              )
+            ) +
+            ggplot2::labs(y = "Artigos Publicados", x = "Ano", col = NULL) +
+            beautyxtrar::theme_academic() +
+            ggplot2::theme(
+              legend.position = c(.13, .9),
+              legend.text = ggplot2::element_text(size = 16),
+              axis.text = ggplot2::element_text(size = 15),
+              axis.title = ggplot2::element_text(size = 18)
+            )
+
+# Salvando a figura 6 em /figuras
+print(figura_6) |>
+  ggplot2::ggsave(
+    filename = "figuras/figura_6.png",
+    width = 16,    # Largura do gráfico em polegadas
+    height = 9,    # Altura do gráfico em polegadas
+    dpi = 300      # Resolução do gráfico em DPI (dots per inch)
+  )
+
+## FIGURA 7 ---------------------------------------------------------------
+
+# Plotagem da figura 7a
+figura_7a <- dados_figura7 |>
+              ggplot2::ggplot(ggplot2::aes(x = total_citacoes,
+                                           y = pais_fator,
+                                           col = total_citacoes)) +
+              ggplot2::geom_col(fill = "#77a3bf", col = "#688fa5",
+                                width = .8, show.legend = FALSE) +
+              ggplot2::scale_x_continuous(breaks = scales::breaks_pretty(n = 5)) +
+              ggplot2::geom_text(
+                data = dados_figura7 |>
+                  dplyr::filter(total_citacoes >= 14000),
+                ggplot2::aes(label = total_citacoes,
+                             x = total_citacoes - 0.05 * max(
+                               dados_figura7$total_citacoes)
+                ),
+                size = 6, show.legend = FALSE, col = 'gray97',
+                family = "Times New Roman") +
+              ggplot2::labs(x = "Total de citações", y = "País") +
+              beautyxtrar::theme_academic() +
+              ggplot2::theme(
+                legend.text = ggplot2::element_text(size = 16),
+                axis.text = ggplot2::element_text(size = 15),
+                axis.title = ggplot2::element_text(size = 18)
+              )
+
+# Salvando a figura 7a em /figuras
+print(figura_7a) |>
+  ggplot2::ggsave(
+    filename = "figuras/figura_7a.png",
+    width = 16,    # Largura do gráfico em polegadas
+    height = 9,    # Altura do gráfico em polegadas
+    dpi = 300      # Resolução do gráfico em DPI (dots per inch)
+  )
+
+# Plotagem da figura 7b
+figura_7b <- dados_figura7 |>
+              dplyr::mutate(pais_fator = forcats::fct_reorder(pais, media_tc)) |>
+              ggplot2::ggplot(ggplot2::aes(x = media_tc, y = pais_fator,
+                                           col = media_tc)) +
+              ggplot2::geom_col(fill = "#77a3bf", col = "#688fa5",
+                                width = .8, show.legend = FALSE) +
+              ggplot2::scale_x_continuous(limits = c(0, 80),
+                                          breaks = scales::breaks_pretty(n = 5)) +
+              ggplot2::geom_text(data = dados_figura7 |>
+                                   dplyr::filter(media_tc >= 50),
+                                 ggplot2::aes(label = media_tc,
+                                              x = media_tc - 0.05 * max(
+                                                dados_figura7$media_tc)
+                                 ),
+                                 size = 6, show.legend = FALSE, col = 'gray97',
+                                 family = "Times New Roman") +
+              ggplot2::labs(x = "Média de Citações", y = "País") +
+              beautyxtrar::theme_academic() +
+              ggplot2::theme(
+                legend.text = ggplot2::element_text(size = 16),
+                axis.text = ggplot2::element_text(size = 15),
+                axis.title = ggplot2::element_text(size = 18)
+              )
+
+# Salvando a figura 7a em /figuras
+print(figura_7b) |>
+  ggplot2::ggsave(
+    filename = "figuras/figura_7b.png",
+    width = 16,    # Largura do gráfico em polegadas
+    height = 9,    # Altura do gráfico em polegadas
+    dpi = 300      # Resolução do gráfico em DPI (dots per inch)
+  )
+
+## FIGURA 8 ---------------------------------------------------------------
+
+# Plotagem da figura 8
+figura_8 <- dados_figura8 |>
+              ggplot2::ggplot(ggplot2::aes(y = reorder(item, year_med))) +
+              ggalt::geom_dumbbell(aes(x = year_q1, xend = year_q3),
+                                   color = "#C2C8DB",
+                                   size = 1.8,
+                                   dot_guide = FALSE,
+                                   size_x = 1.3,
+                                   size_xend = 1.3,
+                                   colour_x = "#C2C8DB",
+                                   colour_xend = "#C2C8DB",
+                                   show.legend = FALSE) +
+              ggplot2::geom_point(aes(x = year_med, y = item, size = freq),
+                                  col = '#577B9B', alpha = .8,
+                                  shape = 21, stroke = 1,
+                                  fill = '#6187B0', show.legend = FALSE) +
+              ggplot2::scale_size(range = c(2, 8)) +
+              ggplot2::scale_x_continuous(limits = c(1992, 2024),
+                                          breaks = scales::breaks_width(4)) +
+              beautyxtrar::theme_xtra(base_family = "Times New Roman") +
+              ggplot2::labs(x = NULL, y = "Palavras-Chave dos Autores") +
+              ggplot2::theme(
+                axis.text.y = ggplot2::element_text(size = 10,
+                                                    hjust = 1,
+                                                    vjust = 0.5),
+                panel.grid.major = ggplot2::element_line(color = "gray90",
+                                                         linewidth = .5),
+                panel.grid.minor = ggplot2::element_line(color = "gray90",
+                                                         linewidth = 0.25,
+                                                         linetype = "dashed")
+              )
+
+# Salvando a figura 8 em /figuras
+print(figura_8) |>
+  ggplot2::ggsave(
+    filename = "figuras/figura_8.png",
+    width = 16,    # Largura do gráfico em polegadas
+    height = 9,    # Altura do gráfico em polegadas
+    dpi = 300      # Resolução do gráfico em DPI (dots per inch)
+  )
+
+### RESULTADOS DAS TABELAS --------------------------------------------------

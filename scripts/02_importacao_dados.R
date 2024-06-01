@@ -3,7 +3,8 @@
 ## Convertendo os dados para data frame
 
 # Scopus
-a <- bibliometrix::convert2df("dados/dados_scopuswos/scopus.csv", dbsource = "scopus",
+scopus <- bibliometrix::convert2df("dados/dados_scopuswos/scopus.csv",
+                              dbsource = "scopus",
                               format = "csv")
 
 # Web of Science
@@ -23,19 +24,20 @@ files <- list("dados/dados_scopuswos/savedrecs.txt",
 df_list <- list()
 
 for(i in seq_along(files)) {
-  df_list[[i]] <- bibliometrix::convert2df(files[i], dbsource = "wos",
+  df_list[[i]] <- bibliometrix::convert2df(files[i],
+                                           dbsource = "wos",
                                            format = "plaintext")
 }
 
 # Adicionando o dataframe 'a' na lista
-df_list <- c(list(a), df_list)
+df_list <- c(list(scopus), df_list)
 
 # REMOÇÃO DOS ARTIGOS DUPLICADOS  ---------------------------------------------
 
 scopus_wos <- do.call(bibliometrix::mergeDbSources, c(df_list,
                                                       list(remove.duplicated = T)
-                                                      )
-                      )
+                                                    )
+              )
 
 ## MANIPULAÇÃO DOS DADOS ------------------------------------------------------
 
@@ -49,6 +51,7 @@ dados <- scopus_wos |>
 
 ## RESULTADOS DA ANÁLISE DO PACOTE BIBLIOMETRIX -------------------------------
 
+# Gerando os principais resultados
 resultados <- bibliometrix::biblioAnalysis(dados)
 
 # Sumarizando os resultados
