@@ -72,7 +72,7 @@ pasta está subdividida em três diretórios:
   referente à Scopus e 12 arquivos em formato *txt* provenientes do WoS.
 
 - `/dados_biblioshiny/`: Neste diretório, encontra-se o arquivo
-  dados.xlsx, utilizado para gerar análises com o *biblioshiny*. Os
+  `dados.xlsx`, utilizado para gerar análises com o *biblioshiny*. Os
   resultados dessas análises foram exportados diretamente para esta
   pasta, totalizando 9 arquivos, todos em formato *xlsx*.
 
