@@ -63,7 +63,7 @@ final.
 
 ## Descrição dos Dados
 
-Todos os dados deste projeto estão localizados na pasta dados,
+Todos os dados deste projeto estão localizados na pasta **dados**,
 necessários para a construção dos resultados presentes no artigo. A
 pasta está subdividida em três diretórios:
 
@@ -71,10 +71,11 @@ pasta está subdividida em três diretórios:
   plataformas Scopus e Web of Science. Há um arquivo (`scopus.csv`)
   referente à Scopus e 12 arquivos em formato *txt* provenientes do WoS.
 
-- `/dados_biblioshiny/`: Neste diretório, encontra-se o arquivo
-  `dados.xlsx`, utilizado para gerar análises com o *biblioshiny*. Os
-  resultados dessas análises foram exportados diretamente para esta
-  pasta, totalizando 9 arquivos, todos em formato *xlsx*.
+- `/dados_biblioshiny/`: No diretório `/dados/`, encontra-se o arquivo
+  `dados.xlsx`, utilizado para gerar análises através da ferramenta
+  *biblioshiny* do pacote *Biliometrix*. Os resultados dessas análises
+  foram exportados diretamente para esta pasta, totalizando 9 arquivos,
+  todos em formato *xlsx*.
 
 - `/dados_scimagojr/`: Esta pasta contém dados da plataforma Scimagojr,
   utilizados para obter as áreas de pesquisa dos periódicos, estando
