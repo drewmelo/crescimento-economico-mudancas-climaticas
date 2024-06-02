@@ -10,9 +10,9 @@ bibliometria; economia.
 
 ## Índice
 
-1.  [Descrição dos Scripts](#descricao-script) 1.1.
-    [Compilação](#compilacao)
-2.  [Descrição dos Dados](#dados)
+1.  [Descrição dos Scripts](#descrição-dos-scripts) 1.1.
+    [Compilação](#compilação)
+2.  [Descrição dos Dados](#descrição-dos-dados)
 3.  [Instalação](#instalacao)
 
 ## Descrição dos Scripts
