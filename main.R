@@ -5,6 +5,10 @@
 # Carregando o script 01_pacotes.R
 source("scripts/01_pacotes.R")
 
+# Caso nunca tenha utilizado o pacote extrafont, necessário executar a função font_import(),
+# para a utlização da fonte Times New Roman -- obs: este processo pode demorar
+#extrafont::font_import()
+
 ## SCRIPT 02 - IMPORTAÇÃO DOS DADOS -------------------------------------------
 
 # Carregando o script 02_importacao_dados.R (pode demorar a compilar)
@@ -183,7 +187,7 @@ figura_4 <- figura_4 +
                 axis.title = ggplot2::element_text(size = 18)
               )
 
-# Salvando a figura 6 em /figuras
+# Salvando a figura 4 em /figuras
 print(figura_4) |>
   ggplot2::ggsave(
     filename = "figuras/figura_4.png",
@@ -244,6 +248,7 @@ figura_6 <- ggplot2::ggplot(data = dados_figura6 |>
               linewidth = .9
             )
 
+# Rótulos para as áreas destacadas
 n_areas <- length(areas <- c("Ciência Ambiental",
                              "Ciências Sociais",
                              "Economia, Econometria e Finanças",
@@ -346,7 +351,7 @@ figura_7b <- dados_figura7 |>
                 axis.title = ggplot2::element_text(size = 18)
               )
 
-# Salvando a figura 7a em /figuras
+# Salvando a figura 7b em /figuras
 print(figura_7b) |>
   ggplot2::ggsave(
     filename = "figuras/figura_7b.png",
@@ -404,14 +409,14 @@ print(figura_8) |>
 
 # Preparando os dados da tabela
 tabela_1 <- dados_tabela1 |>
-            head(10) |>
-            dplyr::rename(
-              `Periódico` = element,
-              `H Index` = h_index_x,
-              `Total de Citações` = tc_x,
-              `Total de Artigos` = np,
-              `Ano Inicial de Publicação` = py_start
-            )
+              head(10) |>
+              dplyr::rename(
+                `Periódico` = element,
+                `H Index` = h_index_x,
+                `Total de Citações` = tc_x,
+                `Total de Artigos` = np,
+                `Ano Inicial de Publicação` = py_start
+              )
 
 # Criando o gráfico da tabela usando ggplot2
 tabela_1 <- ggplot2::ggplot(tabela_1,
@@ -439,12 +444,12 @@ dev.off()
 
 # Preparando os dados da tabela
 tabela_2 <- dados_tabela2 |>
-  head(10) |>
-  dplyr::rename(
-    `Instituição` = au_un,
-    `Total de Citações` = total_artigos_instituto,
-    `Total de Artigos` = articles
-  )
+              head(10) |>
+              dplyr::rename(
+                `Instituição` = au_un,
+                `Total de Citações` = total_artigos_instituto,
+                `Total de Artigos` = articles
+              )
 
 # Criando o gráfico da tabela usando ggplot2
 tabela_2 <- ggplot2::ggplot(tabela_2,
@@ -472,31 +477,31 @@ dev.off()
 
 # Preparando os dados da tabela
 tabela_3 <- dados_tabela3 |>
-  head(10) |>
-  dplyr::rename(
-    `Autor` = element,
-    `H Index` = h_index,
-    `Total de Citações` = tc,
-    `Total de Artigos` = np,
-    `Ano Inicial de Publicação` = py_start
-  )
+              head(10) |>
+              dplyr::rename(
+                `Autor` = element,
+                `H Index` = h_index,
+                `Total de Citações` = tc,
+                `Total de Artigos` = np,
+                `Ano Inicial de Publicação` = py_start
+              )
 
 # Criando o gráfico da tabela usando ggplot2
 tabela_3 <- ggplot2::ggplot(tabela_3,
                             ggplot2::aes(x = "", y = Autor)) +
-  ggplot2::geom_blank() +
-  ggplot2::theme_void() +
-  ggplot2::annotation_custom(
-    gridExtra::tableGrob(tabela_3)
-  ) +
-  ggplot2::ggtitle(
-    "Tabela 3 - Os dez autores mais influentes em termos de índice de produtividade acadêmica"
-  ) +
-  ggplot2::theme(
-    plot.title = ggplot2::element_text(
-      size = 14, face = "bold", hjust = 0.5, vjust = -.5
-    )
-  )
+            ggplot2::geom_blank() +
+            ggplot2::theme_void() +
+            ggplot2::annotation_custom(
+              gridExtra::tableGrob(tabela_3)
+            ) +
+            ggplot2::ggtitle(
+              "Tabela 3 - Os dez autores mais influentes em termos de índice de produtividade acadêmica"
+            ) +
+            ggplot2::theme(
+              plot.title = ggplot2::element_text(
+                size = 14, face = "bold", hjust = 0.5, vjust = -.5
+              )
+            )
 
 #  Gerando o PDF em /tabelas
 pdf("tabelas/tabela_3.pdf", height = 3.5, width = 14, family = "Times")
@@ -507,31 +512,31 @@ dev.off()
 
 # Preparando os dados da tabela
 tabela_4 <- dados_tabela4 |>
-  dplyr::select(-c(2:3, 7, 8)) |>
-  head(10) |>
-  dplyr::rename(
-    `Documento` = Document,
-    `LCS` = `Local Citations`,
-    `GCS` = `Global Citations`,
-    `Influência Local (%)` = `LC/GC Ratio (%)`
-  )
+              dplyr::select(-c(2:3, 7, 8)) |>
+              head(10) |>
+              dplyr::rename(
+                `Documento` = Document,
+                `LCS` = `Local Citations`,
+                `GCS` = `Global Citations`,
+                `Influência Local (%)` = `LC/GC Ratio (%)`
+              )
 
 # Criando o gráfico da tabela usando ggplot2
 tabela_4 <- ggplot2::ggplot(tabela_4,
                             ggplot2::aes(x = "", y = Documento)) +
-  ggplot2::geom_blank() +
-  ggplot2::theme_void() +
-  ggplot2::annotation_custom(
-    gridExtra::tableGrob(tabela_4)
-  ) +
-  ggplot2::ggtitle(
-    "Tabela 4 -  Principais documentos em termos de citação local e relevância para o campo de estudo"
-  ) +
-  ggplot2::theme(
-    plot.title = ggplot2::element_text(
-      size = 14, face = "bold", hjust = 0.5, vjust = -.5
-    )
-  )
+            ggplot2::geom_blank() +
+            ggplot2::theme_void() +
+            ggplot2::annotation_custom(
+              gridExtra::tableGrob(tabela_4)
+            ) +
+            ggplot2::ggtitle(
+              "Tabela 4 -  Principais documentos em termos de citação local e relevância para o campo de estudo"
+            ) +
+            ggplot2::theme(
+              plot.title = ggplot2::element_text(
+                size = 14, face = "bold", hjust = 0.5, vjust = -.5
+              )
+            )
 
 #  Gerando o PDF em /tabelas
 pdf("tabelas/tabela_4.pdf", height = 3.5, width = 14, family = "Times")
