@@ -30,16 +30,16 @@ dados_area <- dados_area |>
 
 ## Manipulação dos dados das figuras ------------------------------------------
 
-# Figura 02 ------------------------------------------------------------------
+# Figura 2 --------------------------------------------------------------------
 dados_figura2 <- dados_figura2 |>
                   janitor::clean_names()
 
-# Figura 03 ------------------------------------------------------------------
+# Figura 3 --------------------------------------------------------------------
 dados_figura3 <- dados_figura3 |>
                   dplyr::rename(freq = Freq) |>
                   dplyr::mutate(region = tolower(region))
 
-# Figura 04 ------------------------------------------------------------------
+# Figura 4 --------------------------------------------------------------------
 dados_figura4 <- dados_figura4 |>
                   janitor::clean_names() |>
                   # Identificando os maiores países em produções científicas
@@ -64,7 +64,7 @@ dados_figura4 <- dados_figura4 |>
                     ano_ref = 2018.3
                   )
 
-# Figura 05 ------------------------------------------------------------------
+# Figura 5 --------------------------------------------------------------------
 dados_figura5 <- dados_figura5 |>
                   janitor::clean_names() |>
                   dplyr::mutate(from = tolower(from), to = tolower(to))
@@ -93,7 +93,7 @@ collab_net %v% 'lat' <- sapply(network::network.vertex.names(collab_net),
                                }
                         )
 
-# Figura 06 ------------------------------------------------------------------
+# Figura 6 --------------------------------------------------------------------
 
 # Realizando contagem de artigos por área
 contagem_figura6 <- dados_area |>
@@ -122,42 +122,43 @@ dados_figura6 <- contagem_figura6 |>
                                                           .default = areas
                   ))
 
-# Figura 07 ------------------------------------------------------------------
+# Figura 7 --------------------------------------------------------------------
 
 dados_figura7 <- dados_figura7 |>
-  head(15) |>
-  dplyr::rename(total_citacoes = TC,
-                media_tc = `Average Article Citations`,
-                pais = Country) |>
-  dplyr::mutate(pais = dplyr::case_match(
-    pais,
-    "CHINA" ~ "China",
-    "USA" ~ "Estados Unidos",
-    "UNITED KINGDOM" ~ "Reino Unido",
-    "AUSTRALIA" ~ "Austrália",
-    "TURKEY" ~ "Turquia",
-    "GERMANY" ~ "Alemanha",
-    "SPAIN" ~ "Espanha",
-    "NETHERLANDS" ~ "Países Baixos",
-    "INDIA" ~ "Índia",
-    "PAKISTAN" ~ "Paquistão",
-    "FRANCE" ~ "França",
-    "MALAYSIA" ~ "Malásia",
-    "AUSTRIA" ~ "Áustria",
-    "NORWAY" ~ "Noruega",
-    "ITALY" ~ "Itália",
-    # Para manter qualquer valor que não corresponda a nenhuma das condições
-    .default = pais
-  )) |>
-  dplyr::mutate(pais_fator = forcats::fct_reorder(pais, total_citacoes))
+                  head(15) |>
+                  dplyr::rename(total_citacoes = TC,
+                                media_tc = `Average Article Citations`,
+                                pais = Country) |>
+                  dplyr::mutate(pais = dplyr::case_match(
+                    pais,
+                    "CHINA" ~ "China",
+                    "USA" ~ "Estados Unidos",
+                    "UNITED KINGDOM" ~ "Reino Unido",
+                    "AUSTRALIA" ~ "Austrália",
+                    "TURKEY" ~ "Turquia",
+                    "GERMANY" ~ "Alemanha",
+                    "SPAIN" ~ "Espanha",
+                    "NETHERLANDS" ~ "Países Baixos",
+                    "INDIA" ~ "Índia",
+                    "PAKISTAN" ~ "Paquistão",
+                    "FRANCE" ~ "França",
+                    "MALAYSIA" ~ "Malásia",
+                    "AUSTRIA" ~ "Áustria",
+                    "NORWAY" ~ "Noruega",
+                    "ITALY" ~ "Itália",
+                    # Para manter qualquer valor que não corresponda a nenhuma das condições
+                    .default = pais
+                  )) |>
+                  dplyr::mutate(pais_fator = forcats::fct_reorder(pais, total_citacoes))
 
-## Auxílio para análise das figuras ------------------------------------------
+## Auxílio para análise das figuras --------------------------------------------
 
 # Calculando a variação anual e média dos artigos (figura 4)
 var_figura4 <- dados_figura4 |>
                 dplyr::group_by(country) |>
                 dplyr::mutate(variacao_artigo = articles - dplyr::lag(articles),
-                              variacao_artigo_percentual = round(100 * (articles - dplyr::lag(articles)) / dplyr::lag(articles), 2)
+                              variacao_artigo_percentual = round(100 * (
+                                articles - dplyr::lag(articles)) / dplyr::lag(articles), 2)
                 ) |>
                 dplyr::filter(country %in% c("China", "Estados Unidos", "Paquistão", "Turquia",
                                              "Austrália", "Índia", "Alemanha", "Reino Unido")) |>
@@ -167,25 +168,54 @@ var_figura4 <- dados_figura4 |>
 
 # Realizando contagem acumulada dos artigos (figura 6)
 acum_figura6 <- dados_figura6 |>
-dplyr::filter(areas %in% c("Ciência Ambiental", "Ciências Sociais", "Economia, Econometria e Finanças",
-                           "Energia", "Medicina")) |>
-  dplyr::group_by(areas) |>
-  dplyr::mutate(cum_n = cumsum(n))
+                 dplyr::filter(areas %in% c("Ciência Ambiental", "Ciências Sociais", "Economia, Econometria e Finanças",
+                                             "Energia", "Medicina")) |>
+                 dplyr::group_by(areas) |>
+                 dplyr::mutate(cum_n = cumsum(n))
 
-## Resultados das tabelas ------------------------------------------
+## Resultados das tabelas -----------------------------------------------------
+
+# Tabela 1 --------------------------------------------------------------------
 
 # Gerando a análise dos periódicos
-dados_tabela1 <- Hindex(dados, field = "source", sep = ";") |>
-  pluck("H") |>
-  clean_names() |>
-  arrange(desc(h_index)) |>
-  inner_join(dados_area, by = c("element" = "title")) |>
-  distinct(element, .keep_all = T) |>
-  select(1:15) |>
-  inner_join(read_excel("dados/dados_biblioshiny/most_relevant_sources.xlsx",
-                        skip = 1),
-             by = c("element" = "Sources")) |>
-  clean_names() |>
-  select(element, h_index_x, tc_x,
-         np, py_start)
+dados_tabela1 <- bibliometrix::Hindex(dados, field = "source", sep = ";") |>
+                  purrr::pluck("H") |>
+                  janitor::clean_names() |>
+                  dplyr::arrange(dplyr::desc(h_index)) |>
+                  dplyr::inner_join(dados_area, by = c("element" = "title")) |>
+                  dplyr::distinct(element, .keep_all = TRUE) |>
+                  dplyr::select(1:15) |>
+                  dplyr::inner_join(readxl::read_excel("dados/dados_biblioshiny/most_relevant_sources.xlsx",
+                                                       skip = 1),
+                                    by = c("element" = "Sources")) |>
+                  janitor::clean_names() |>
+                  dplyr::select(element, h_index_x, tc_x,
+                                np, py_start)
 
+# Tabela 2 --------------------------------------------------------------------
+
+# Gerando a análise das instituições
+dados_tabela2 <- dplyr::right_join(dados_tabela2, dados,
+                                   by = c("Paper" = "SR")) |>
+                  janitor::clean_names() |>
+                  dplyr::select(1:3, 5, py, au_un) |>
+                  tidyr::separate_rows(au_un, sep = ";") |>
+                  dplyr::distinct(au_un, paper, total_citations) |>
+                  tidyr::drop_na() |>
+                  dplyr::group_by(au_un) |>
+                  dplyr::mutate(total_artigos_instituto = sum(total_citations)) |>
+                  dplyr::inner_join(
+                    readxl::read_excel("dados/dados_biblioshiny/artigos_totais_instituto.xlsx",
+                                       skip = 1), by = c("au_un" = "Affiliation")) |>
+                  dplyr::distinct(au_un, total_artigos_instituto, articles = Articles) |>
+                  dplyr::arrange(dplyr::desc(total_artigos_instituto)) |>
+                  dplyr::ungroup()
+
+# Tabela 3 --------------------------------------------------------------------
+
+# Gerando a análise dos autores
+dados_tabela3 <- bibliometrix::Hindex(dados, field = "author", sep = ";") |>
+                  purrr::pluck("H") |>
+                  janitor::clean_names() |>
+                  dplyr::arrange(dplyr::desc(h_index)) |>
+                  dplyr::select(-c(g_index, m_index))

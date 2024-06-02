@@ -42,7 +42,7 @@ scopus_wos <- do.call(bibliometrix::mergeDbSources, c(df_list,
 ## MANIPULAÇÃO DOS DADOS ------------------------------------------------------
 
 # Visualização da variável DT da base de dados
-distinct(scopus_wos, DT) |>
+dplyr::distinct(scopus_wos, DT) |>
   knitr::kable(row.names = F)
 
 # Filtrando apenas artigos e papers
@@ -101,7 +101,12 @@ dados_figura8 <- readxl::read_excel("dados/dados_biblioshiny/trend_topics.xlsx",
 ## IMPORTAÇÃO DOS DADOS GERADOS PELO BIBLIOMETRIX (FIGURAS) -------------------
 
 # Tabela 2
-dados_tabela2 <- readxl::read_excel("dados/dados_biblioshiny/most_global_cited_documents.xlsx", skip = 1)
+dados_tabela2 <- readxl::read_excel("dados/dados_biblioshiny/most_global_cited_documents.xlsx",
+                                    skip = 1)
+
+# Tabela 3
+dados_tabela4 <- readxl::read_excel("dados/dados_biblioshiny/most_local_cited_documents.xlsx",
+                                    skip = 1)
 
 ## IMPORTAÇÃO DE OUTROS DATASETS PARA PLOTAGEM  -------------------------------
 
@@ -111,4 +116,4 @@ rawnodes <- read.csv('http://www.kateto.net/wordpress/wp-content/uploads/2015/06
 ## IMPORTAÇÃO DOS DADOS DO SCIMAGOJR ------------------------------------------
 
 # Importação dos dados referente as áreas dos periódicos
-dados_area <- read_csv2("dados/dados_scimagojr/area_pesquisa.csv")
+dados_area <- readr::read_csv2("dados/dados_scimagojr/area_pesquisa.csv")

@@ -24,6 +24,8 @@ pacotes <- c(
   "network",
   # Manipulação de dados - formatação dos nomes de colunas
   "janitor",
+  # Visualização das variáveis da base principal
+  "knitr",
   # Importação de dados
   "readxl",
   # Fontes e tabelas

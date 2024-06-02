@@ -1,16 +1,16 @@
-### ======================= SCRIPT PRINCIPAL ================================
+### ========================= SCRIPT PRINCIPAL ============================ ###
 
-## SCRIPT 01 - PACOTES ------------------------------------------------------
+## SCRIPT 01 - PACOTES --------------------------------------------------------
 
 # Carregando o script 01_pacotes.R
 source("scripts/01_pacotes.R")
 
-## SCRIPT 02 - IMPORTAÇÃO DOS DADOS -----------------------------------------
+## SCRIPT 02 - IMPORTAÇÃO DOS DADOS -------------------------------------------
 
-# Carregando o script 02_importacao_dados.R
+# Carregando o script 02_importacao_dados.R (pode demorar a compilar)
 source("scripts/02_importacao_dados.R")
 
-## SCRIPT 03 - MANIPULAÇÃO DOS DADOS ----------------------------------------
+## SCRIPT 03 - MANIPULAÇÃO DOS DADOS ------------------------------------------
 
 # Exportando os dados para xlsx para análise do biblioshiny
 openxlsx::write.xlsx(dados, "dados/dados.xlsx", rowNames = F)
@@ -18,9 +18,9 @@ openxlsx::write.xlsx(dados, "dados/dados.xlsx", rowNames = F)
 # Carregando o script 03_manipulacao_dados.R
 source("scripts/03_manipulacao_dados.R")
 
-### FIGURAS -----------------------------------------------------------------
+### FIGURAS -------------------------------------------------------------------
 
-## FIGURA 2 -----------------------------------------------------------------
+## FIGURA 2 -------------------------------------------------------------------
 
 # Plotagem do gráfico de linhas
 figura_2 <- dados_figura2 |>
@@ -46,7 +46,7 @@ print(figura_2) |>
     dpi = 300      # Resolução do gráfico em DPI (dots per inch)
   )
 
-## FIGURA 3 ---------------------------------------------------------------
+## FIGURA 3 -------------------------------------------------------------------
 
 # Importando o mapa mundi do pacote ggplot2
 mapa <- ggplot2::map_data("world") |>
@@ -86,7 +86,7 @@ print(figura_3) |>
     dpi = 300      # Resolução do gráfico em DPI (dots per inch)
   )
 
-## FIGURA 4 ---------------------------------------------------------------
+## FIGURA 4 -------------------------------------------------------------------
 
 # Rótulos para os países destacados
 n_paises <- length(c("China", "Estados Unidos", "Reino Unido", "Paquistão", "Turquia",
@@ -192,7 +192,7 @@ print(figura_4) |>
     dpi = 300      # Resolução do gráfico em DPI (dots per inch)
   )
 
-## FIGURA 5 ---------------------------------------------------------------
+## FIGURA 5 -------------------------------------------------------------------
 
 # Abrir o dispositivo gráfico para salvar a figura 5
 png(filename = "figuras/figura_5.png",
@@ -229,7 +229,7 @@ figura_5 <- network::plot.network(collab_net,
 # Fechar o dispositivo gráfico
 dev.off()
 
-## FIGURA 6 ---------------------------------------------------------------
+## FIGURA 6 -------------------------------------------------------------------
 
 figura_6 <- ggplot2::ggplot(data = dados_figura6 |>
                               dplyr::filter(total_n < 700),
@@ -285,7 +285,7 @@ print(figura_6) |>
     dpi = 300      # Resolução do gráfico em DPI (dots per inch)
   )
 
-## FIGURA 7 ---------------------------------------------------------------
+## FIGURA 7 -------------------------------------------------------------------
 
 # Plotagem da figura 7a
 figura_7a <- dados_figura7 |>
@@ -355,7 +355,7 @@ print(figura_7b) |>
     dpi = 300      # Resolução do gráfico em DPI (dots per inch)
   )
 
-## FIGURA 8 ---------------------------------------------------------------
+## FIGURA 8 -------------------------------------------------------------------
 
 # Plotagem da figura 8
 figura_8 <- dados_figura8 |>
@@ -398,11 +398,11 @@ print(figura_8) |>
     dpi = 300      # Resolução do gráfico em DPI (dots per inch)
   )
 
-### TABELAS ---------------------------------------------------------------
+### TABELAS -------------------------------------------------------------------
 
-## Tabela 1 ----------------------------------------------------------------
+## Tabela 1 -------------------------------------------------------------------
 
-# Preparando os dados da tabela 1
+# Preparando os dados da tabela
 tabela_1 <- dados_tabela1 |>
             head(10) |>
             dplyr::rename(
@@ -413,25 +413,127 @@ tabela_1 <- dados_tabela1 |>
               `Ano Inicial de Publicação` = py_start
             )
 
-# Criar o gráfico da tabela usando ggplot2
-background_tabela1 <- ggplot2::ggplot(tabela_1,
-                                      ggplot2::aes(x = "", y = Periódico)) +
-                      ggplot2::geom_blank() +
-                      ggplot2::theme_void() +
-                      ggplot2::annotation_custom(
-                        gridExtra::tableGrob(tabela_1)
-                      ) +
-                      ggplot2::ggtitle(
-                        "Tabela 1 - Desempenho dos principais periódicos científicos em termos de índice de produtividade acadêmica"
-                      ) +
-                      ggplot2::theme(
-                        plot.title = ggplot2::element_text(
-                          size = 14, face = "bold", hjust = 0.5, vjust = -.5
-                        )
-                      )
+# Criando o gráfico da tabela usando ggplot2
+tabela_1 <- ggplot2::ggplot(tabela_1,
+                            ggplot2::aes(x = "", y = Periódico)) +
+            ggplot2::geom_blank() +
+            ggplot2::theme_void() +
+            ggplot2::annotation_custom(
+              gridExtra::tableGrob(tabela_1)
+            ) +
+            ggplot2::ggtitle(
+              "Tabela 1 - Desempenho dos principais periódicos científicos em termos de índice de produtividade acadêmica"
+            ) +
+            ggplot2::theme(
+              plot.title = ggplot2::element_text(
+                size = 14, face = "bold", hjust = 0.5, vjust = -.5
+              )
+            )
 
-# Gerar o PDF com a fonte especificada
+# Gerando o PDF em /tabelas
 pdf("tabelas/tabela_1.pdf", height = 3.5, width = 14, family = "Times")
-print(background_tabela1)
+print(tabela_1)
 dev.off()
 
+## Tabela 2 -------------------------------------------------------------------
+
+# Preparando os dados da tabela
+tabela_2 <- dados_tabela2 |>
+  head(10) |>
+  dplyr::rename(
+    `Instituição` = au_un,
+    `Total de Citações` = total_artigos_instituto,
+    `Total de Artigos` = articles
+  )
+
+# Criando o gráfico da tabela usando ggplot2
+tabela_2 <- ggplot2::ggplot(tabela_2,
+                            ggplot2::aes(x = "", y = Instituição)) +
+            ggplot2::geom_blank() +
+            ggplot2::theme_void() +
+            ggplot2::annotation_custom(
+              gridExtra::tableGrob(tabela_2)
+            ) +
+            ggplot2::ggtitle(
+              "Tabela 2 - As dez instituições científicas mais influentes em termos de total de citações recebidas e total de artigos publicados"
+            ) +
+            ggplot2::theme(
+              plot.title = ggplot2::element_text(
+                size = 14, face = "bold", hjust = 0.5, vjust = -.5
+              )
+            )
+
+#  Gerando o PDF em /tabelas
+pdf("tabelas/tabela_2.pdf", height = 3.5, width = 14, family = "Times")
+print(tabela_2)
+dev.off()
+
+## Tabela 3 -------------------------------------------------------------------
+
+# Preparando os dados da tabela
+tabela_3 <- dados_tabela3 |>
+  head(10) |>
+  dplyr::rename(
+    `Autor` = element,
+    `H Index` = h_index,
+    `Total de Citações` = tc,
+    `Total de Artigos` = np,
+    `Ano Inicial de Publicação` = py_start
+  )
+
+# Criando o gráfico da tabela usando ggplot2
+tabela_3 <- ggplot2::ggplot(tabela_3,
+                            ggplot2::aes(x = "", y = Autor)) +
+  ggplot2::geom_blank() +
+  ggplot2::theme_void() +
+  ggplot2::annotation_custom(
+    gridExtra::tableGrob(tabela_3)
+  ) +
+  ggplot2::ggtitle(
+    "Tabela 3 - Os dez autores mais influentes em termos de índice de produtividade acadêmica"
+  ) +
+  ggplot2::theme(
+    plot.title = ggplot2::element_text(
+      size = 14, face = "bold", hjust = 0.5, vjust = -.5
+    )
+  )
+
+#  Gerando o PDF em /tabelas
+pdf("tabelas/tabela_3.pdf", height = 3.5, width = 14, family = "Times")
+print(tabela_3)
+dev.off()
+
+## Tabela 4 -------------------------------------------------------------------
+
+# Preparando os dados da tabela
+tabela_4 <- dados_tabela4 |>
+  dplyr::select(-c(2:3, 7, 8)) |>
+  head(10) |>
+  dplyr::rename(
+    `Documento` = Document,
+    `LCS` = `Local Citations`,
+    `GCS` = `Global Citations`,
+    `Influência Local (%)` = `LC/GC Ratio (%)`
+  )
+
+# Criando o gráfico da tabela usando ggplot2
+tabela_4 <- ggplot2::ggplot(tabela_4,
+                            ggplot2::aes(x = "", y = Documento)) +
+  ggplot2::geom_blank() +
+  ggplot2::theme_void() +
+  ggplot2::annotation_custom(
+    gridExtra::tableGrob(tabela_4)
+  ) +
+  ggplot2::ggtitle(
+    "Tabela 4 -  Principais documentos em termos de citação local e relevância para o campo de estudo"
+  ) +
+  ggplot2::theme(
+    plot.title = ggplot2::element_text(
+      size = 14, face = "bold", hjust = 0.5, vjust = -.5
+    )
+  )
+
+#  Gerando o PDF em /tabelas
+pdf("tabelas/tabela_4.pdf", height = 3.5, width = 14, family = "Times")
+print(tabela_4)
+dev.off()
