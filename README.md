@@ -13,7 +13,7 @@ bibliometria; economia.
 1.  [Descrição dos Scripts](#descrição-dos-scripts) 1.1.
     [Compilação](#compilação)
 2.  [Descrição dos Dados](#descrição-dos-dados)
-3.  [Instalação](#instalacao)
+3.  [Instalação](#instalação)
 
 ## Descrição dos Scripts
 

@@ -14,7 +14,7 @@ Uma breve descrição do projeto, o que ele faz e por que é útil.
 1. [Descrição dos Scripts](#descrição-dos-scripts)
 1.1. [Compilação](#compilação)
 2. [Descrição dos Dados](#descrição-dos-dados)
-3. [Instalação](#instalacao)
+3. [Instalação](#instalação)
 
 ## Descrição dos Scripts
 
