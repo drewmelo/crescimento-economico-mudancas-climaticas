@@ -98,13 +98,13 @@ dados_figura7 <- readxl::read_excel("dados/dados_biblioshiny/most_cited_countrie
 dados_figura8 <- readxl::read_excel("dados/dados_biblioshiny/trend_topics.xlsx",
                                     skip = 1)
 
-## IMPORTAÇÃO DOS DADOS GERADOS PELO BIBLIOMETRIX (FIGURAS) -------------------
+## IMPORTAÇÃO DOS DADOS GERADOS PELO BIBLIOMETRIX (TABELAS) -------------------
 
 # Tabela 2
 dados_tabela2 <- readxl::read_excel("dados/dados_biblioshiny/most_global_cited_documents.xlsx",
                                     skip = 1)
 
-# Tabela 3
+# Tabela 4
 dados_tabela4 <- readxl::read_excel("dados/dados_biblioshiny/most_local_cited_documents.xlsx",
                                     skip = 1)
 
