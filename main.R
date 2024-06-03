@@ -35,7 +35,7 @@ figura_2 <- dados_figura2 |>
               ggplot2::scale_y_continuous(breaks = scales::breaks_pretty()) +
               ggplot2::scale_x_continuous(limits = c(1978, 2024),
                                           breaks = seq(1978, 2024, 3)) +
-              ggplot2::labs(x = "Ano", y = "Artigos publicados") +
+              ggplot2::labs(x = "Ano", y = "Artigos Publicados") +
               ggthemes::theme_hc(base_family = "Times New Roman") +
               ggplot2::theme(
                 axis.text = ggplot2::element_text(size = 15),
@@ -181,7 +181,7 @@ figura_4 <- figura_4 +
                     n = n_paises, name = "Bold")[1:n_paises-1], "grey50"
                 )
               ) +
-              ggplot2::labs(y = "Artigos publicados", x = "Ano") +
+              ggplot2::labs(y = "Artigos Publicados", x = "Ano") +
               beautyxtrar::theme_academic() +
               ggplot2::theme(
                 axis.text = ggplot2::element_text(size = 15),
@@ -310,7 +310,7 @@ figura_7a <- dados_figura7 |>
                 ),
                 size = 6, show.legend = FALSE, col = 'gray97',
                 family = "Times New Roman") +
-              ggplot2::labs(x = "Total de citações", y = "País") +
+              ggplot2::labs(x = "Total de Citações", y = "País") +
               beautyxtrar::theme_academic() +
               ggplot2::theme(
                 legend.text = ggplot2::element_text(size = 16),
