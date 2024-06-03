@@ -5,9 +5,10 @@
 # Carregando o script 01_pacotes.R
 source("scripts/01_pacotes.R")
 
-# Caso nunca tenha utilizado o pacote extrafont, necessário executar a função font_import(),
+# Caso nunca tenha utilizado o pacote extrafont, necessário executar a função font_import()
 # para a utlização da fonte Times New Roman -- obs: este processo pode demorar
 #extrafont::font_import()
+# Após isso, executar novamente o script '01_pacotes.R' acima
 
 ## SCRIPT 02 - IMPORTAÇÃO DOS DADOS -------------------------------------------
 
