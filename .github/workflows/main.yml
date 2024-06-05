@@ -28,7 +28,7 @@ jobs:
       run: |
         Rscript -e 'library(covr); library(testthat); coverage <- file_coverage(c("main.R", "scripts/01_pacotes.R", "scripts/02_importacao_dados.R", "scripts/03_manipulacao_dados.R"), "tests/test_main.R"); print(coverage); codecov(coverage = coverage)'
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v4.0.1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
