@@ -1,4 +1,4 @@
-Crescimento Econômico e mudanças climáticas: uma análise bibliométrica
+Crescimento Econômico e Mudanças Climáticas: uma análise bibliométrica
 ================
 
 [![Project Status:
@@ -6,10 +6,25 @@ Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repost
 
 ## Resumo
 
-Uma breve descrição do projeto, o que ele faz e por que é útil.
+O conceito de desenvolvimento sustentável surgiu nos anos 1970 como
+alternativa ao crescimento econômico desenfreado e ganhou relevância com
+o relatório do Clube de Roma em 1972, destacando a necessidade de
+equilibrar crescimento econômico, proteção ambiental e justiça social.
+Este estudo visa mapeia a evolução da literatura sobre a interseção
+entre crescimento econômico e mudanças climáticas, usando análise
+bibliométrica de 5919 documentos na base Scopus e Web of Science
+(1978-2024) com uso do software R. Os resultados mostram um crescimento
+anual de 13,77% na produção científica, com a China liderando em
+publicações, seguida por Estados Unidos e Reino Unido. As áreas
+principais são Ciência Ambiental, Ciências Sociais, Economia, Energia e
+Medicina. Instituições como Universidade Tsinghua e Academia Chinesa de
+Ciências, e autores como Wang S., Bekun F. e Adebayo T., são destacados.
+Revelando uma expansão rápida, colaboração internacional significativa e
+identifica lacunas que necessitam de investigação, sublinhando a
+importância da colaboração global para soluções sustentáveis.
 
-**Palavras-chave:** Crescimento Econômico; Mudanças Climáticas;
-bibliometria; economia.
+**Palavras-chave:** Análise bibliométrica; Desenvolvimentos
+sustentáveis; Economia; Crescimento econômico.
 
 ## Índice
 
