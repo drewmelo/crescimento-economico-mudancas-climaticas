@@ -22,16 +22,11 @@ jobs:
     - name: Install dependencies
       run: |
         install.packages('devtools')
-        devtools::install_deps(dependencies = TRUE)
         install.packages(c('covr', 'testthat'))
 
-    - name: Run tests
+    - name: Run tests and generate coverage
       run: |
-        Rscript -e 'library(testthat); test_dir("tests")'
-
-    - name: Run coverage
-      run: |
-        Rscript -e 'library(covr); codecov()'
+        Rscript -e 'library(covr); library(testthat); coverage <- file_coverage(c("main.R", "scripts/01_pacotes.R", "scripts/02_importacao_dados.R", "scripts/03_manipulacao_dados.R"), "tests/test_script.R"); print(coverage); codecov(coverage = coverage)'
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4
