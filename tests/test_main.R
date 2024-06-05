@@ -11,3 +11,4 @@ test_that("Teste básico para o script main.R", {
   # Adicione mais testes conforme necessário para verificar se os resultados
   # produzidos pelo main.R estão corretos
 })
+
