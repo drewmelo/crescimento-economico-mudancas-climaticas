@@ -1,6 +1,9 @@
 Crescimento Econômico e mudanças climáticas: uma análise bibliométrica
 ================
 
+[![Project Status:
+Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+
 ## Resumo
 
 Uma breve descrição do projeto, o que ele faz e por que é útil.
