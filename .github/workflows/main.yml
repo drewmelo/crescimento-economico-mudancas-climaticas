@@ -26,7 +26,7 @@ jobs:
 
     - name: Run tests and generate coverage
       run: |
-        Rscript -e 'library(covr); library(testthat); coverage <- file_coverage("main.R", "tests/test_main.R"); print(coverage); codecov(coverage = coverage)'
+        Rscript -e 'library(covr); library(testthat); coverage <- file_coverage(c("main.R", "scripts/01_pacotes.R", "scripts/02_importacao_dados.R", "scripts/03_manipulacao_dados.R"), "tests/test_main.R"); print(coverage); codecov(coverage = coverage)'
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4
